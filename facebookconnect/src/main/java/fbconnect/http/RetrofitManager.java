@@ -3,12 +3,12 @@ package fbconnect.http;
 
 import android.text.TextUtils;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.android.jn.facebook.R;
-
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -213,7 +213,8 @@ public class RetrofitManager {
 
             @Override
             public String convert(ResponseBody value) throws IOException {
-                return IOUtils.toString(new InputStreamReader(value.byteStream()));
+                return CharStreams.toString(new InputStreamReader(
+                        value.byteStream(), Charsets.UTF_8));
             }
         }
     }
