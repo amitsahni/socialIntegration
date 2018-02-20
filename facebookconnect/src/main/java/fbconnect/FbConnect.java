@@ -1,6 +1,5 @@
 package fbconnect;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -13,7 +12,6 @@ import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -104,11 +102,10 @@ public class FbConnect {
      * With builder.
      *
      * @param context the context
-     * @param action  the action
      * @return the builder
      */
-    public static Builder with(@NonNull Activity context, @NonNull Param.FBAction action) {
-        return new Builder(context, action);
+    public static Builder with(@NonNull Context context) {
+        return new Builder(context);
 
     }
 

@@ -1,13 +1,8 @@
 package fbconnect;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
-
-import java.util.Map;
-
-import fbconnect.callback.OnFBCallback;
-import fbconnect.controller.LoginController;
-import fbconnect.controller.ProfileController;
 
 /**
  * Created by amit on 4/2/17.
@@ -16,48 +11,23 @@ import fbconnect.controller.ProfileController;
 public class Builder {
     private Param param;
 
-    /**
-     * Instantiates a new Builder.
-     *
-     * @param context the context
-     * @param action  the action
-     */
-    public Builder(@NonNull Activity context, @NonNull Param.FBAction action) {
-        param = new Param();
-        param.activityContext = context;
+    public Builder(Context context) {
         param.context = context;
-        param.action = action;
     }
 
-    public Builder action(@NonNull Param.FBAction action) {
-        param.action = action;
-        return this;
+    public RequestBuilder.LoginBuilder login(@NonNull Activity context) {
+        param = new Param();
+        param.action = Param.FBAction.LOGIN;
+        return new RequestBuilder.LoginBuilder(param, context);
     }
 
-    public <RESULT, ERROR> Builder callback(@NonNull OnFBCallback<RESULT, ERROR> callback) {
-        param.fbCallback = callback;
-        return this;
+    public RequestBuilder.LogoutBuilder logout() {
+        return new RequestBuilder.LogoutBuilder();
     }
 
-    public Builder requestMap(@NonNull Map<String, String> map) {
-        param.map = map;
-        return this;
-    }
-
-    public void build() {
-        switch (param.action) {
-            case LOGIN:
-                new LoginController().login(param);
-                break;
-            case LOGOUT:
-                new LoginController().logout();
-                break;
-            case PROFILE:
-                new ProfileController().profile(param);
-                break;
-            default:
-                // No Action performs
-                break;
-        }
+    public RequestBuilder.ProfileBuilder profile() {
+        param = new Param();
+        param.action = Param.FBAction.PROFILE;
+        return new RequestBuilder.ProfileBuilder(param);
     }
 }

@@ -16,8 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import fbconnect.FbConnect;
-import fbconnect.Param;
-import fbconnect.callback.FBCallback;
 import fbconnect.callback.FBException;
 import fbconnect.callback.OnFBCallback;
 import fbconnect.model.ProfileResult;
@@ -32,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         FbConnect.get().getKeyHash(this);
         textView = (TextView) findViewById(android.R.id.text1);
         if (TextUtils.isEmpty(FbConnect.get().getToken(this))) {
-            FbConnect.with(this, Param.FBAction.LOGIN)
+            FbConnect.with(this)
+                    .login(this)
                     .callback(new OnFBCallback<LoginResult, FBException>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
@@ -46,11 +45,10 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onError(FBException error) {
-                            error.printStackTrace();
+                        public void onError(FBException e) {
+                            e.printStackTrace();
                         }
-                    })
-                    .build();
+                    }).build();
         } else {
             profile();
             //FbConnect.with(this, Param.FBAction.LOGOUT).build();
@@ -60,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private void profile() {
         Map<String, String> map = new LinkedHashMap<>();
         // map.put(WebEndPoint.USER_ID_KEY, "1549869761707679");
-        FbConnect.with(this, Param.FBAction.PROFILE)
-                .requestMap(map)
-                .callback(new FBCallback<ProfileResult, FBException>() {
+        FbConnect.with(this)
+                .profile()
+                .callback(new OnFBCallback<ProfileResult, FBException>() {
                     @Override
                     public void onSuccess(ProfileResult profileResult) {
                         Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
@@ -79,10 +77,17 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(FBException fBException) {
+                    public void onCancel() {
+
                     }
-                })
-                .build();
+
+                    @Override
+                    public void onError(FBException e) {
+
+                    }
+                }).build();
+
+
     }
 
     @Override

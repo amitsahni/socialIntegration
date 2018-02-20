@@ -9,17 +9,17 @@ public class WebEndPoint {
     public static final String ALBUM_ID_KEY = "album_id";
 
 
-    protected static String ACCESS_TOKEN_KEY = "access_token";
-    protected static String FIELD = "fields";
-    protected static final String ID = "id";
-    protected static String BASE = "https://graph.facebook.com/v1.0/";
-    protected static final String PROFILE = "{" + ID + "}";
-    protected static final String FRIEND = "{" + ID + "}/friends";
-    protected static final String ALBUM = "{" + ID + "}/albums";
-    protected static final String PHOTO = "{" + ID + "}/photos";
+    public static String ACCESS_TOKEN_KEY = "access_token";
+    public static String FIELD = "fields";
+    public static final String ID = "id";
+    public static String BASE = "https://graph.facebook.com/v1.0/";
+    public static final String PROFILE = "{" + ID + "}";
+    public static final String FRIEND = "{" + ID + "}/friends";
+    public static final String ALBUM = "{" + ID + "}/albums";
+    public static final String PHOTO = "{" + ID + "}/photos";
 
-    protected static int PROFILE_TASK_ID = 1;
-    protected static int FRIEND_TASK_ID = 2;
-    protected static int ALBUM_TASK_ID = 3;
-    protected static int PHOTO_TASK_ID = 4;
+    public static int PROFILE_TASK_ID = 1;
+    public static int FRIEND_TASK_ID = 2;
+    public static int ALBUM_TASK_ID = 3;
+    public static int PHOTO_TASK_ID = 4;
 }

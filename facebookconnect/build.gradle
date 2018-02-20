@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         minSdkVersion 15
@@ -17,15 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
+    }
 }
 
 dependencies {
-    compile 'com.facebook.android:facebook-android-sdk:4.19.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.facebook.android:facebook-android-sdk:4.28.0'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.google.guava:guava:20.0'
     /*  Web Calling Retrofit + Okhttp */
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.github.amitsahni:http:1.0.2'
 }

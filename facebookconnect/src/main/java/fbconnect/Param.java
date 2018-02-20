@@ -1,6 +1,5 @@
 package fbconnect;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.google.common.base.Optional;
@@ -15,8 +14,6 @@ import fbconnect.callback.OnFBCallback;
  */
 
 public class Param {
-
-    protected Activity activityContext;
 
     protected Context context;
 
@@ -41,10 +38,6 @@ public class Param {
          * ProfileResult
          **/
         PROFILE
-    }
-
-    public Activity getActivityContext() {
-        return activityContext;
     }
 
     public Context getContext() {
