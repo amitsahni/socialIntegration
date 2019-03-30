@@ -17,7 +17,9 @@ import java.util.Map;
 
 import fbconnect.FbConnect;
 import fbconnect.callback.FBException;
-import fbconnect.callback.OnFBCallback;
+import fbconnect.callback.OnCancel;
+import fbconnect.callback.OnError;
+import fbconnect.callback.OnSuccess;
 import fbconnect.model.ProfileResult;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,28 +29,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FbConnect.get().getKeyHash(this);
+        FbConnect.getKeyHash(this);
         textView = (TextView) findViewById(android.R.id.text1);
-        if (TextUtils.isEmpty(FbConnect.get().getToken(this))) {
-            FbConnect.with(this)
+        if (TextUtils.isEmpty(FbConnect.getToken(this))) {
+            FbConnect.with()
                     .login(this)
-                    .callback(new OnFBCallback<LoginResult, FBException>() {
+                    .success(new OnSuccess<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
                             Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
                             profile();
                         }
+                    })
+                    .error(new OnError<FBException>() {
+                        @Override
+                        public void onError(FBException e) {
 
+                        }
+                    })
+                    .cancel(new OnCancel() {
                         @Override
                         public void onCancel() {
 
                         }
-
-                        @Override
-                        public void onError(FBException e) {
-                            e.printStackTrace();
-                        }
-                    }).build();
+                    })
+                    .build();
         } else {
             profile();
             //FbConnect.with(this, Param.FBAction.LOGOUT).build();
@@ -58,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private void profile() {
         Map<String, String> map = new LinkedHashMap<>();
         // map.put(WebEndPoint.USER_ID_KEY, "1549869761707679");
-        FbConnect.with(this)
-                .profile()
-                .callback(new OnFBCallback<ProfileResult, FBException>() {
+        FbConnect.with()
+                .profile(this)
+                .success(new OnSuccess<ProfileResult>() {
                     @Override
                     public void onSuccess(ProfileResult profileResult) {
                         Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
@@ -75,17 +80,14 @@ public class MainActivity extends AppCompatActivity {
                         builder.append("CustomImage = " + "http://graph.facebook.com/" + profileResult.getId() + "/picture?type=large");
                         textView.setText(builder.toString());
                     }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-
+                })
+                .error(new OnError<FBException>() {
                     @Override
                     public void onError(FBException e) {
 
                     }
-                }).build();
+                })
+                .build();
 
 
     }
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
                     //login
                     Log.i(getLocalClassName(), "Login");
-                    FbConnect.get().onActivityResult(requestCode, resultCode, data);
+                    FbConnect.onActivityResult(requestCode, resultCode, data);
                 }
             }
         }

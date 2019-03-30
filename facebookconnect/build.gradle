@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -25,7 +27,11 @@ android {
 dependencies {
     api 'com.facebook.android:facebook-android-sdk:4.28.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.google.guava:guava:24.1-jre'
+    api 'com.google.guava:guava:27.1-android'
     /*  Web Calling Retrofit + Okhttp */
     implementation 'com.github.amitsahni:http:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
