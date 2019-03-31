@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">FacebookUtil</string>
-    <string name="fb_app_id">548198285511949</string>
+    <string name="app_name" translatable="false">FacebookUtil</string>
+    <string name="fb_app_id" translatable="false">548198285511949</string>
 </resources>

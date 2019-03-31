@@ -10,17 +10,12 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
-import com.facebook.login.LoginResult;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import fbconnect.FbConnect;
-import fbconnect.callback.FBException;
-import fbconnect.callback.OnCancel;
-import fbconnect.callback.OnError;
-import fbconnect.callback.OnSuccess;
-import fbconnect.model.ProfileResult;
+import kotlin.Unit;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
@@ -34,24 +29,16 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(FbConnect.getToken(this))) {
             FbConnect.with()
                     .login(this)
-                    .success(new OnSuccess<LoginResult>() {
-                        @Override
-                        public void onSuccess(LoginResult loginResult) {
-                            Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
-                            profile();
-                        }
+                    .success(loginResult -> {
+                        Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
+                        profile();
+                        return kotlin.Unit.INSTANCE;
                     })
-                    .error(new OnError<FBException>() {
-                        @Override
-                        public void onError(FBException e) {
-
-                        }
+                    .error(e -> {
+                        return kotlin.Unit.INSTANCE;
                     })
-                    .cancel(new OnCancel() {
-                        @Override
-                        public void onCancel() {
-
-                        }
+                    .cancel(() -> {
+                        return kotlin.Unit.INSTANCE;
                     })
                     .build();
         } else {
@@ -65,27 +52,22 @@ public class MainActivity extends AppCompatActivity {
         // map.put(WebEndPoint.USER_ID_KEY, "1549869761707679");
         FbConnect.with()
                 .profile(this)
-                .success(new OnSuccess<ProfileResult>() {
-                    @Override
-                    public void onSuccess(ProfileResult profileResult) {
-                        Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
-                        StringBuilder builder = new StringBuilder();
-                        builder.append("Name = " + profileResult.getName() + "\n" + "\n");
-                        builder.append("FirstName LastName = " + profileResult.getFirstName() + " " + profileResult.getLastName() + "\n" + "\n");
-                        builder.append("Email = " + profileResult.getEmail() + "\n" + "\n");
-                        if (profileResult.getPicture() != null && profileResult.getPicture().getData() != null) {
-                            builder.append("Image = " + profileResult.getPicture().getData().getProfileImage() + "\n" + "\n");
-                        }
-                        builder.append("CustomImage = " + "http://graph.facebook.com/" + profileResult.getId() + "/picture?type=square" + "\n" + "\n");
-                        builder.append("CustomImage = " + "http://graph.facebook.com/" + profileResult.getId() + "/picture?type=large");
-                        textView.setText(builder.toString());
+                .success(profileResult -> {
+                    Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("Name = " + profileResult.getName() + "\n" + "\n");
+                    builder.append("FirstName LastName = " + profileResult.getFirstName() + " " + profileResult.getLastName() + "\n" + "\n");
+                    builder.append("Email = " + profileResult.getEmail() + "\n" + "\n");
+                    if (profileResult.getPicture() != null && profileResult.getPicture().getData() != null) {
+                        builder.append("Image = " + profileResult.getPicture().getData().getProfileImage() + "\n" + "\n");
                     }
+                    builder.append("CustomImage = " + "http://graph.facebook.com/" + profileResult.getId() + "/picture?type=square" + "\n" + "\n");
+                    builder.append("CustomImage = " + "http://graph.facebook.com/" + profileResult.getId() + "/picture?type=large");
+                    textView.setText(builder.toString());
+                    return Unit.INSTANCE;
                 })
-                .error(new OnError<FBException>() {
-                    @Override
-                    public void onError(FBException e) {
-
-                    }
+                .error(error -> {
+                    return Unit.INSTANCE;
                 })
                 .build();
 

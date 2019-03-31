@@ -32,28 +32,28 @@ class RequestBuilder {
         private var errorCallback: OnError<FBException>? = null
         private var cancelCallback: OnCancel? = null
 
-        fun success(success: OnSuccess<LoginResult>): LoginBuilder {
+        fun success(success: LoginResult.() -> Unit): LoginBuilder {
             successCallback = object : OnSuccess<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
-                    success.onSuccess(result)
+                    success(result)
                 }
             }
             return this
         }
 
-        fun error(error: OnError<FBException>): LoginBuilder {
+        fun error(error: FBException.() -> Unit): LoginBuilder {
             errorCallback = object : OnError<FBException> {
                 override fun onError(e: FBException) {
-                    error.onError(e)
+                    error(e)
                 }
             }
             return this
         }
 
-        fun cancel(cancel: OnCancel): LoginBuilder {
+        fun cancel(cancel: () -> Unit): LoginBuilder {
             cancelCallback = object : OnCancel {
                 override fun onCancel() {
-                    cancel.onCancel()
+                    cancel()
                 }
             }
             return this
@@ -98,19 +98,19 @@ class RequestBuilder {
         private var successCallback: OnSuccess<ProfileResult>? = null
         private var errorCallback: OnError<FBException>? = null
 
-        fun success(success: OnSuccess<ProfileResult>): ProfileBuilder {
+        fun success(success: ProfileResult.() -> Unit): ProfileBuilder {
             successCallback = object : OnSuccess<ProfileResult> {
                 override fun onSuccess(result: ProfileResult) {
-                    success.onSuccess(result)
+                    success(result)
                 }
             }
             return this
         }
 
-        fun error(error: OnError<FBException>): ProfileBuilder {
+        fun error(error: FBException.() -> Unit): ProfileBuilder {
             errorCallback = object : OnError<FBException> {
                 override fun onError(e: FBException) {
-                    error.onError(e)
+                    error(e)
                 }
             }
             return this

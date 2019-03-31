@@ -52,59 +52,44 @@ Currently this library support only following service.
 To get `KeyHash`
 
 ```
-FbConnect.get().getKeyHash(this);
+FbConnect.getKeyHash(this);
 ```
 
 To check for active `token`
 
 ```
-FbConnect.get().getToken(this)
+FbConnect.getToken(this)
 ```
 
 `Login Sample`
 
-```
+```kotlin
 if (TextUtils.isEmpty(FbConnect.get().getToken(this))) {
-            FbConnect.with(this, Param.FBAction.LOGIN)
-                    .callback(new OnFBCallback<LoginResult, FBException>() {
-                        @Override
-                        public void onSuccess(LoginResult loginResult) {
-                            Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-
-                        @Override
-                        public void onError(FBException error) {
-                            error.printStackTrace();
-                        }
-                    })
-                    .build();
+            FbConnect.with()
+                     .login(this)
+                     .permissions(emptyList())
+                     .success {
+            
+                     }.error {
+            
+                     }.cancel {
+            
+                     }.build()
         }
 ```
 
 
 `Profile Sample`
 
-```
-Map<String, String> map = new LinkedHashMap<>();
-//        map.put(WebEndPoint.ALBUM_ID_KEY, "1549869761707679");  // pass Id of other user if want to check other user profile
-        FbConnect.with(this, Param.FBAction.PROFILE)
-                .requestMap(map)
-                .callback(new FBCallback<ProfileResult, FBException>() {
-                    @Override
-                    public void onSuccess(ProfileResult profileResult) {
-                        Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
-                    }
-
-                    @Override
-                    public void onError(FBException fBException) {
-                    }
-                })
-                .build();
+```kotlin
+       FbConnect.with()
+                .profile(this)
+                .otherUserId("")
+                .success { 
+                    
+                }.error { 
+                    
+                }.build()
 ```
 
 `OnActivityResult`
