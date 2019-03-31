@@ -1,4 +1,5 @@
-![](https://jitpack.io/v/amitclickapps/twitterutil.svg?style=flat-square)
+[ ![Download](https://api.bintray.com/packages/amitsahni/Library/twitter/images/download.svg) ](https://bintray.com/amitsahni/Library/twitter/_latestVersion)
+
 **How to Use Library**
 
 
@@ -100,7 +101,7 @@ if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
 Download
 --------
 
-![](https://jitpack.io/v/amitclickapps/twitterutil.svg?style=flat-square)
+[ ![Download](https://api.bintray.com/packages/amitsahni/Library/twitter/images/download.svg) ](https://bintray.com/amitsahni/Library/twitter/_latestVersion)
 
 
 ```groovy
