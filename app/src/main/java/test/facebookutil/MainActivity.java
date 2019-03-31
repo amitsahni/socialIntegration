@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.twitterconnect.TwitterConfiguration;
+import com.twitterconnect.TwitterConnect;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,32 +22,86 @@ import kotlin.Unit;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
+    private static final String TWITTER_KEY = "mpUVvDLh4EE0376IdQZfGI5vf";
+    private static final String TWITTER_SECRET = "L8SEa7dfP1qdCSUTfrkXrI0CjY4uqNUin7tfVc3gn588CUQomm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FbConnect.getKeyHash(this);
+        TwitterConfiguration.keys(TWITTER_KEY, TWITTER_SECRET)
+                .isDebug(true)
+                .config(this);
         textView = (TextView) findViewById(android.R.id.text1);
-        if (TextUtils.isEmpty(FbConnect.getToken(this))) {
-            FbConnect.with()
-                    .login(this)
-                    .success(loginResult -> {
-                        Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
-                        profile();
-                        return kotlin.Unit.INSTANCE;
-                    })
-                    .error(e -> {
-                        return kotlin.Unit.INSTANCE;
-                    })
-                    .cancel(() -> {
-                        return kotlin.Unit.INSTANCE;
-                    })
-                    .build();
-        } else {
-            profile();
-            //FbConnect.with(this, Param.FBAction.LOGOUT).build();
-        }
+        findViewById(R.id.fb).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(FbConnect.getToken())) {
+                    FbConnect.with()
+                            .login(MainActivity.this)
+                            .success(loginResult -> {
+                                Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
+                                profile();
+                                return kotlin.Unit.INSTANCE;
+                            })
+                            .error(e -> {
+                                return kotlin.Unit.INSTANCE;
+                            })
+                            .cancel(() -> {
+                                return kotlin.Unit.INSTANCE;
+                            })
+                            .build();
+                } else {
+                    profile();
+                    //FbConnect.with(this, Param.FBAction.LOGOUT).build();
+                }
+            }
+        });
+
+        findViewById(R.id.tw).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TwitterConnect.getSession() == null) {
+                    TwitterConnect.with()
+                            .login(MainActivity.this)
+                            .success(model -> {
+                                Log.i(getLocalClassName(), "getUserName = " + model.getUserName());
+                                Log.i(getLocalClassName(), "getUserId = " + model.getUserId());
+                                return Unit.INSTANCE;
+                            }).error(error -> {
+                        return Unit.INSTANCE;
+                    }).build();
+                } else {
+                    TwitterConnect.with().email()
+                            .success(email -> {
+                                Log.i(getLocalClassName(), "Email = " + email);
+                                return Unit.INSTANCE;
+                            }).error(error -> {
+                        return Unit.INSTANCE;
+                    });
+                    TwitterConnect.with()
+                            .profile()
+                            .success(s -> {
+
+                                Log.i(getLocalClassName(), "Email = " + s.email);
+                                Log.i(getLocalClassName(), "Name = " + s.name);
+                                Log.i(getLocalClassName(), "profileImageUrl = " + s.profileImageUrl);
+                                StringBuilder builder = new StringBuilder();
+                                builder.append("Name = " + s.name + "\n");
+                                builder.append("Email = " + s.email + "\n");
+                                builder.append("Profile url = " + s.profileImageUrl + "\n");
+                                builder.append("Follower Count = " + s.followersCount + "\n");
+                                Log.i(getLocalClassName(), "builder = " + s.toString());
+                                return Unit.INSTANCE;
+                            })
+                            .error(error -> {
+                                return Unit.INSTANCE;
+                            }).build();
+                }
+            }
+        });
+
     }
 
     private void profile() {
@@ -77,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        TwitterConnect.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (FacebookSdk.isFacebookRequestCode(requestCode)) {
                 //Facebook activity result
