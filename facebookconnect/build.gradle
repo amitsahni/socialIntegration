@@ -8,9 +8,9 @@ ext {
     libraryName = 'facebookconnect'
     libraryDescription = 'Facebook Integration'
 
-    siteUrl = 'https://github.com/amitsahni/facebookUtil'
-    gitUrl = 'https://github.com/amitsahni/facebookUtil.git'
-    issueUrl = 'https://github.com/amitsahni/facebookUtil/issues'
+    siteUrl = 'https://github.com/amitsahni/socialIntegration'
+    gitUrl = 'https://github.com/amitsahni/socialIntegration.git'
+    issueUrl = 'https://github.com/amitsahni/socialIntegration/issues'
 
     publishedGroupId = 'com.amitsahni'
     artifact = 'facebook'
