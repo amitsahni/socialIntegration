@@ -99,27 +99,18 @@ if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
 
 Download
 --------
-Add the JitPack repository to your root build.gradle:
 
 ![](https://jitpack.io/v/amitclickapps/twitterutil.svg?style=flat-square)
 
 
 ```groovy
-	allprojects {
-		repositories {
-			maven { url "https://jitpack.io" }
-		}
-	}
-```
-App Gradle
-```groovy
-  repositories {
-    jcenter()
+repositories {
+    maven {
+        url  "https://dl.bintray.com/amitsahni/Library" 
+    }
 }
 ```
-Add the Gradle dependency:
+
 ```groovy
-	dependencies {
-		compile 'com.github.amitclickapps:twitterutil:latest'
-	}
+implementation 'com.amitsahni:twitter:0.0.1-alpha01'
 ```
