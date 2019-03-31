@@ -1,3 +1,4 @@
+[ ![Download](https://api.bintray.com/packages/amitsahni/Library/facebook/images/download.svg) ](https://bintray.com/amitsahni/Library/facebook/_latestVersion)
 **How to Use Library**
 
 `FbConnect` is used to call every Method.
@@ -108,4 +109,17 @@ if (resultCode == Activity.RESULT_OK) {
                 }
             }
         }
+```
+
+
+```
+repositories {
+    maven {
+        url  "https://dl.bintray.com/amitsahni/Library" 
+    }
+}
+```
+
+```
+implementation 'com.amitsahni:facebook:0.0.1-alpha01'
 ```

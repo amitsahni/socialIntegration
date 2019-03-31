@@ -3,7 +3,6 @@ package fbconnect
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.annotation.NonNull
 import android.util.Base64
 import android.util.Log
 import com.facebook.AccessToken
@@ -44,13 +43,6 @@ object FbConnect {
     fun with(): Builder {
         return Builder()
 
-    }
-
-    @JvmStatic
-    fun getToken(@NonNull context: Context): String {
-        return if (AccessToken.getCurrentAccessToken() != null) {
-            AccessToken.getCurrentAccessToken().token
-        } else ""
     }
 
     @JvmStatic

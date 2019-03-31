@@ -41,10 +41,10 @@ class RequestBuilder {
             return this
         }
 
-        fun error(error: FBException.() -> Unit): LoginBuilder {
+        fun error(e: FBException.() -> Unit): LoginBuilder {
             errorCallback = object : OnError<FBException> {
-                override fun onError(e: FBException) {
-                    error(e)
+                override fun onError(error: FBException) {
+                    e(error)
                 }
             }
             return this
@@ -107,10 +107,10 @@ class RequestBuilder {
             return this
         }
 
-        fun error(error: FBException.() -> Unit): ProfileBuilder {
+        fun error(e: FBException.() -> Unit): ProfileBuilder {
             errorCallback = object : OnError<FBException> {
-                override fun onError(e: FBException) {
-                    error(e)
+                override fun onError(error: FBException) {
+                    e(error)
                 }
             }
             return this
@@ -124,7 +124,7 @@ class RequestBuilder {
         fun build() {
             val map = LinkedHashMap<String, String>()
             map[FIELD] = "about,gender,first_name,birthday,last_name,name,link,email,cover,updated_time,timezone,work,picture.type(large)"
-            map[ACCESS_TOKEN_KEY] = FbConnect.getToken(context)
+            map[ACCESS_TOKEN_KEY] = FbConnect.token
             if (TextUtils.isEmpty(otherUserId)) {
                 otherUserId = "me"
             }
