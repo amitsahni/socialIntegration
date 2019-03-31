@@ -73,13 +73,6 @@ public class MainActivity extends AppCompatActivity {
                         return Unit.INSTANCE;
                     }).build();
                 } else {
-                    TwitterConnect.with().email()
-                            .success(email -> {
-                                Log.i(getLocalClassName(), "Email = " + email);
-                                return Unit.INSTANCE;
-                            }).error(error -> {
-                        return Unit.INSTANCE;
-                    });
                     TwitterConnect.with()
                             .profile()
                             .success(s -> {

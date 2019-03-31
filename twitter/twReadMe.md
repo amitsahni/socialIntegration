@@ -6,7 +6,6 @@
 Currently this library support only following service.
 - Login
 - Logout
-- Email
 - Profile
 
 ----
@@ -53,62 +52,41 @@ TwitterConnect.getSession()
 
 `Login Sample`
 
-```
-TwitterConnect.with(this, Param.TWAction.LOGIN)
-                    .callback(new OnTwitterCallback<TwitterSession, TwitterException>() {
-                        @Override
-                        public void onSuccess(TwitterSession twitterSessionResult) {
-                            TwitterAuthToken authToken = twitterSessionResult.getAuthToken();
-                            String token = authToken.token;
-                            String secret = authToken.secret;
-                            Log.i(getLocalClassName(), "UserName = " + twitterSessionResult.getUserName());
-                            Log.i(getLocalClassName(), "Id = " + twitterSessionResult.getUserId());
-                            Log.i(getLocalClassName(), "token = " + token);
-                            Log.i(getLocalClassName(), "secret = " + secret);
-                            email();
-                        }
-
-                        @Override
-                        public void onError(TwitterException e) {
-                            e.printStackTrace();
-                        }
+```kotlin
+if (TwitterConnect.getSession() == null) {
+                    TwitterConnect.with()
+                            .login(MainActivity.this)
+                            .success(model -> {
+                                Log.i(getLocalClassName(), "getUserName = " + model.getUserName());
+                                Log.i(getLocalClassName(), "getUserId = " + model.getUserId());
+                                return Unit.INSTANCE;
+                            }).error(error -> {
+                        return Unit.INSTANCE;
                     }).build();
-```
-
-`Email Permission Sample`
-
-```
-TwitterConnect.with(this, Param.TWAction.EMAIL)
-                .callback(new OnTwitterCallback<String, TwitterException>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.i(getLocalClassName(), "onSuccess = " + s);
-                    }
-
-                    @Override
-                    public void onError(TwitterException e) {
-                        e.printStackTrace();
-                    }
-                }).build();
+                } 
 ```
 
 `Profile Sample`
 
-```
-TwitterConnect.with(this, Param.TWAction.PROFILE)
-                .callback(new OnTwitterCallback<User, TwitterException>() {
-                    @Override
-                    public void onSuccess(User s) {
-                        Log.i(getLocalClassName(), "Email = " + s.email);
-                        Log.i(getLocalClassName(), "Name = " + s.name);
-                        Log.i(getLocalClassName(), "profileImageUrl = " + s.profileImageUrl);
-                    }
+```kotlin
+TwitterConnect.with()
+              .profile()
+              .success(s -> {
 
-                    @Override
-                    public void onError(TwitterException e) {
-                        e.printStackTrace();
-                    }
-                }).build();
+                                Log.i(getLocalClassName(), "Email = " + s.email);
+                                Log.i(getLocalClassName(), "Name = " + s.name);
+                                Log.i(getLocalClassName(), "profileImageUrl = " + s.profileImageUrl);
+                                StringBuilder builder = new StringBuilder();
+                                builder.append("Name = " + s.name + "\n");
+                                builder.append("Email = " + s.email + "\n");
+                                builder.append("Profile url = " + s.profileImageUrl + "\n");
+                                builder.append("Follower Count = " + s.followersCount + "\n");
+                                Log.i(getLocalClassName(), "builder = " + s.toString());
+                                return Unit.INSTANCE;
+                            })
+                            .error(error -> {
+                                return Unit.INSTANCE;
+                            }).build();
 ```
 
 `OnAcitivyResult`

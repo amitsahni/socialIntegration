@@ -18,10 +18,6 @@ class Builder {
         TwitterCore.getInstance().sessionManager.clearActiveSession()
     }
 
-    fun email(): RequestBuilder.EmailBuilder {
-        return RequestBuilder.EmailBuilder()
-    }
-
     fun profile(): RequestBuilder.ProfileBuilder {
         return RequestBuilder.ProfileBuilder()
     }
