@@ -2,6 +2,29 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
+ext {
+    bintrayRepo = 'Library'
+    bintrayName = 'facebook'
+    libraryName = 'facebookconnect'
+    libraryDescription = 'Facebook Integration'
+
+    siteUrl = 'https://github.com/amitsahni/facebookUtil'
+    gitUrl = 'https://github.com/amitsahni/facebookUtil.git'
+    issueUrl = 'https://github.com/amitsahni/facebookUtil/issues'
+
+    publishedGroupId = 'com.amitsahni'
+    artifact = 'facebook'
+    libraryVersion = '0.0.1-alpha01'
+
+    developerId = 'amitsahni'
+    developerName = 'Amit Singh'
+    developerEmail = 'sahni1987@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 27
 
@@ -22,6 +45,9 @@ android {
             maven { url "https://jitpack.io" }
         }
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
@@ -34,4 +60,8 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+if(project.rootProject.file('local.properties').exists()){
+    apply from: 'https://raw.githubusercontent.com/amitsahni/JCenter/master/deploy.gradle'
 }
