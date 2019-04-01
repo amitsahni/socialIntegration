@@ -44,12 +44,8 @@ public class MainActivity extends AppCompatActivity {
                             profile();
                             return Unit.INSTANCE;
                         })
-                        .error(e -> {
-                            return Unit.INSTANCE;
-                        })
-                        .cancel(() -> {
-                            return Unit.INSTANCE;
-                        })
+                        .error(e -> Unit.INSTANCE)
+                        .cancel(() -> Unit.INSTANCE)
                         .build();
             } else {
                 profile();
@@ -65,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.i(getLocalClassName(), "getUserName = " + model.getUserName());
                             Log.i(getLocalClassName(), "getUserId = " + model.getUserId());
                             return Unit.INSTANCE;
-                        }).error(error -> {
-                    return Unit.INSTANCE;
-                }).build();
+                        }).error(error -> Unit.INSTANCE).build();
             } else {
                 TwitterConnect.with()
                         .profile()
