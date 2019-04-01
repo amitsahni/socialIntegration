@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Created by amit on 4/2/17.
  */
 
-class ProfileResult {
+class ProfileResult  {
 
     /*{
    "id": "10211600460784783",

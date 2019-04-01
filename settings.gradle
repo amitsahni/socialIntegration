@@ -1,1 +1,1 @@
-include ':app', ':facebookconnect', ':twitter'
+include ':app', ':facebookconnect', ':twitter', ':instagram'

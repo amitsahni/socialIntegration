@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.instaconnect.InstaConnect;
 import com.twitterconnect.TwitterConfiguration;
 import com.twitterconnect.TwitterConnect;
 
@@ -33,65 +33,82 @@ public class MainActivity extends AppCompatActivity {
         TwitterConfiguration.keys(TWITTER_KEY, TWITTER_SECRET)
                 .isDebug(true)
                 .config(this);
+        InstaConnect.isDebug(getApplication());
         textView = (TextView) findViewById(android.R.id.text1);
-        findViewById(R.id.fb).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TextUtils.isEmpty(FbConnect.getToken())) {
-                    FbConnect.with()
-                            .login(MainActivity.this)
-                            .success(loginResult -> {
-                                Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
-                                profile();
-                                return kotlin.Unit.INSTANCE;
-                            })
-                            .error(e -> {
-                                return kotlin.Unit.INSTANCE;
-                            })
-                            .cancel(() -> {
-                                return kotlin.Unit.INSTANCE;
-                            })
-                            .build();
-                } else {
-                    profile();
-                    //FbConnect.with(this, Param.FBAction.LOGOUT).build();
-                }
+        findViewById(R.id.fb).setOnClickListener(view -> {
+            if (TextUtils.isEmpty(FbConnect.getToken())) {
+                FbConnect.with()
+                        .login(MainActivity.this)
+                        .success(loginResult -> {
+                            Log.i(getLocalClassName(), "LoginResult = " + loginResult.getAccessToken().getToken());
+                            profile();
+                            return Unit.INSTANCE;
+                        })
+                        .error(e -> {
+                            return Unit.INSTANCE;
+                        })
+                        .cancel(() -> {
+                            return Unit.INSTANCE;
+                        })
+                        .build();
+            } else {
+                profile();
+                //FbConnect.with(this, Param.FBAction.LOGOUT).build();
             }
         });
 
-        findViewById(R.id.tw).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TwitterConnect.getSession() == null) {
-                    TwitterConnect.with()
-                            .login(MainActivity.this)
-                            .success(model -> {
-                                Log.i(getLocalClassName(), "getUserName = " + model.getUserName());
-                                Log.i(getLocalClassName(), "getUserId = " + model.getUserId());
-                                return Unit.INSTANCE;
-                            }).error(error -> {
-                        return Unit.INSTANCE;
-                    }).build();
-                } else {
-                    TwitterConnect.with()
-                            .profile()
-                            .success(s -> {
+        findViewById(R.id.tw).setOnClickListener(view -> {
+            if (TwitterConnect.getSession() == null) {
+                TwitterConnect.with()
+                        .login(MainActivity.this)
+                        .success(model -> {
+                            Log.i(getLocalClassName(), "getUserName = " + model.getUserName());
+                            Log.i(getLocalClassName(), "getUserId = " + model.getUserId());
+                            return Unit.INSTANCE;
+                        }).error(error -> {
+                    return Unit.INSTANCE;
+                }).build();
+            } else {
+                TwitterConnect.with()
+                        .profile()
+                        .success(s -> {
 
-                                Log.i(getLocalClassName(), "Email = " + s.email);
-                                Log.i(getLocalClassName(), "Name = " + s.name);
-                                Log.i(getLocalClassName(), "profileImageUrl = " + s.profileImageUrl);
-                                StringBuilder builder = new StringBuilder();
-                                builder.append("Name = " + s.name + "\n");
-                                builder.append("Email = " + s.email + "\n");
-                                builder.append("Profile url = " + s.profileImageUrl + "\n");
-                                builder.append("Follower Count = " + s.followersCount + "\n");
-                                Log.i(getLocalClassName(), "builder = " + s.toString());
-                                return Unit.INSTANCE;
-                            })
-                            .error(error -> {
-                                return Unit.INSTANCE;
-                            }).build();
-                }
+                            Log.i(getLocalClassName(), "Email = " + s.email);
+                            Log.i(getLocalClassName(), "Name = " + s.name);
+                            Log.i(getLocalClassName(), "profileImageUrl = " + s.profileImageUrl);
+                            StringBuilder builder = new StringBuilder();
+                            builder.append("Name = " + s.name + "\n");
+                            builder.append("Email = " + s.email + "\n");
+                            builder.append("Profile url = " + s.profileImageUrl + "\n");
+                            builder.append("Follower Count = " + s.followersCount + "\n");
+                            Log.i(getLocalClassName(), "builder = " + s.toString());
+                            return Unit.INSTANCE;
+                        })
+                        .error(error -> {
+                            return Unit.INSTANCE;
+                        }).build();
+            }
+        });
+
+        findViewById(R.id.insta).setOnClickListener(view -> {
+            if (!InstaConnect.isAlreadyLogin(MainActivity.this)) {
+                InstaConnect.with()
+                        .login(MainActivity.this, "2487808efe6d4cd0a3feb16e83fa1d25", "http://www.clickapps.co/")
+                        .success(token -> {
+                            Log.i(getLocalClassName(), "Token = " + token);
+                            return Unit.INSTANCE;
+                        }).error(error -> {
+                    Log.i(getLocalClassName(), "Error = " + error);
+                    return Unit.INSTANCE;
+                }).build();
+            } else {
+                InstaConnect.with()
+                        .profile(MainActivity.this)
+                        .success(profile -> {
+                            Log.i(getLocalClassName(), "Model = " + profile.toString());
+                            return Unit.INSTANCE;
+                        })
+                        .build();
             }
         });
 
