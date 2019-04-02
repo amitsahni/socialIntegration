@@ -51,6 +51,13 @@ Currently this library support only following service.
 ```
 `Sample` Example
 
+#### Configuration
+
+```kotlin
+FacebookConfiguration.isDebug(true).config(getApplication());
+```
+
+
 To get `KeyHash`
 
 ```
