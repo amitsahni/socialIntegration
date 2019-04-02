@@ -10,7 +10,7 @@ import webconnect.com.webconnect.listener.OnWebCallback
 
 class RequestBuilder {
 
-    class LoginBuilder(private val context: Context, private val clientId: String, private val redirectUrl: String) {
+    class LoginBuilder(private val context: Context) {
         private var successCallback: OnSuccess<String>? = null
         private var errorCallback: OnError<String>? = null
 
@@ -33,7 +33,7 @@ class RequestBuilder {
         }
 
         fun build() {
-            AuthenticationDialog(context, clientId, redirectUrl, object : AuthenticationDialog.AuthenticationListener {
+            AuthenticationDialog(context, InstaConfiguration.clientId, InstaConfiguration.redirectUrl, object : AuthenticationDialog.AuthenticationListener {
                 override fun onTokenError(error: String) {
                     errorCallback?.onError(error)
                 }

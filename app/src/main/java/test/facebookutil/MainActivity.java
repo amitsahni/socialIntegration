@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.instaconnect.InstaConfiguration;
 import com.instaconnect.InstaConnect;
 import com.twitterconnect.TwitterConfiguration;
 import com.twitterconnect.TwitterConnect;
@@ -17,6 +18,7 @@ import com.twitterconnect.TwitterConnect;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import fbconnect.FacebookConfiguration;
 import fbconnect.FbConnect;
 import kotlin.Unit;
 
@@ -30,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FbConnect.getKeyHash(this);
+        FacebookConfiguration.isDebug(true).config(getApplication());
         TwitterConfiguration.keys(TWITTER_KEY, TWITTER_SECRET)
                 .isDebug(true)
                 .config(this);
-        InstaConnect.isDebug(getApplication());
+
+        InstaConfiguration.clientId("2487808efe6d4cd0a3feb16e83fa1d25", "http://www.clickapps.co/")
+                .isDebug(true)
+                .config(getApplication());
+
         textView = (TextView) findViewById(android.R.id.text1);
         findViewById(R.id.fb).setOnClickListener(view -> {
             if (TextUtils.isEmpty(FbConnect.getToken())) {
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.insta).setOnClickListener(view -> {
             if (!InstaConnect.isAlreadyLogin(MainActivity.this)) {
                 InstaConnect.with()
-                        .login(MainActivity.this, "2487808efe6d4cd0a3feb16e83fa1d25", "http://www.clickapps.co/")
+                        .login(MainActivity.this)
                         .success(token -> {
                             Log.i(getLocalClassName(), "Token = " + token);
                             return Unit.INSTANCE;

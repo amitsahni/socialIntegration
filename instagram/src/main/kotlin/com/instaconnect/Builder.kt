@@ -4,8 +4,8 @@ import android.content.Context
 
 class Builder {
 
-    fun login(context: Context, clientId: String, redirectUrl: String): RequestBuilder.LoginBuilder {
-        return RequestBuilder.LoginBuilder(context, clientId, redirectUrl)
+    fun login(context: Context): RequestBuilder.LoginBuilder {
+        return RequestBuilder.LoginBuilder(context)
     }
 
     fun logout(context: Context) {

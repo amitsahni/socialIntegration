@@ -1,8 +1,6 @@
 package com.instaconnect
 
-import android.app.Application
 import android.content.Context
-import webconnect.com.webconnect.ApiConfiguration
 
 object InstaConnect {
 
@@ -32,11 +30,4 @@ object InstaConnect {
         return pref["access_token", ""]
     }
 
-    @JvmStatic
-    fun isDebug(context: Application) {
-        ApiConfiguration.Builder(context)
-                .baseUrl("https://api.instagram.com/v1/")
-                .debug(true)
-                .config()
-    }
 }
