@@ -59,6 +59,7 @@ repositories {
     maven {
         url  "https://dl.bintray.com/amitsahni/Library" 
     }
+    maven { url "https://jitpack.io" }
 }
 ```
 

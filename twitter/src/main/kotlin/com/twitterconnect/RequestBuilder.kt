@@ -44,7 +44,7 @@ class RequestBuilder {
                     // Success
                     val activeSession = TwitterConnect.session
                     val customClient = OkHttpClient.Builder()
-                            .addInterceptor(TwitterConfiguration.loggingInterceptor!!).build()
+                            .addInterceptor(TwitterConfiguration.loggingInterceptor).build()
                     val customApiClient = TwClient(activeSession!!, customClient)
                     TwitterCore.getInstance().addApiClient(activeSession, customApiClient)
                     successCallback?.onSuccess(twitterSessionResult.data)
