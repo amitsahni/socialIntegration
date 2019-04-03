@@ -1,4 +1,4 @@
-package fbconnect.callback
+package com.instaconnect.callback
 
 interface OnSuccess<RESULT> {
 

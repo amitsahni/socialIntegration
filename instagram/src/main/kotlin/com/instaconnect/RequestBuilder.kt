@@ -3,8 +3,8 @@ package com.instaconnect
 import android.content.Context
 import android.util.Log
 import com.instaconnect.model.Profile
-import fbconnect.callback.OnError
-import fbconnect.callback.OnSuccess
+import com.instaconnect.callback.OnError
+import com.instaconnect.callback.OnSuccess
 import webconnect.com.webconnect.WebConnect
 import webconnect.com.webconnect.listener.OnWebCallback
 

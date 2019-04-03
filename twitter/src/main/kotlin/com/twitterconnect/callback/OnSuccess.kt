@@ -1,4 +1,4 @@
-package fbconnect.callback
+package com.twitterconnect.callback
 
 interface OnSuccess<RESULT> {
 

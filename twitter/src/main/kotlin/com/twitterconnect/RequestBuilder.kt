@@ -5,8 +5,8 @@ import com.twitter.sdk.android.core.*
 import com.twitter.sdk.android.core.models.User
 import com.twitterconnect.controller.TwCallback
 import com.twitterconnect.controller.TwClient
-import fbconnect.callback.OnError
-import fbconnect.callback.OnSuccess
+import com.twitterconnect.callback.OnError
+import com.twitterconnect.callback.OnSuccess
 import okhttp3.OkHttpClient
 
 /**
