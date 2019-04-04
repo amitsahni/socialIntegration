@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.firebaseauth.google.GoogleConfiguration;
+import com.firebaseauth.google.GoogleConnect;
+import com.google.firebase.auth.FirebaseUser;
 import com.instaconnect.InstaConfiguration;
 import com.instaconnect.InstaConnect;
 import com.twitterconnect.TwitterConfiguration;
@@ -113,6 +116,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        GoogleConfiguration.INSTANCE.clientId("872446504976-l8pa7tp4nrc0v07tqa68bu7r6pqsvrtp.apps.googleusercontent.com")
+                .build();
+
+        findViewById(R.id.google).setOnClickListener(view -> {
+            FirebaseUser user = GoogleConfiguration.INSTANCE.getAuth().getCurrentUser();
+            if (user == null) {
+                GoogleConnect.INSTANCE.with()
+                        .login(MainActivity.this, 1000)
+                        .build();
+            } else {
+                Log.i(getLocalClassName(), user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
+            }
+        });
+
     }
 
     private void profile() {
@@ -157,7 +175,18 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(getLocalClassName(), "Login");
                     FbConnect.onActivityResult(requestCode, resultCode, data);
                 }
+            } else if (requestCode == 1000) {
+                GoogleConfiguration.INSTANCE.onActivityResult(data, aBoolean -> {
+                    if (aBoolean)
+                        GoogleConnect.INSTANCE.with()
+                                .profile()
+                                .build();
+                    return Unit.INSTANCE;
+                });
             }
         }
+
     }
+
+
 }
