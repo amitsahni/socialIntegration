@@ -2,42 +2,8 @@
 
 **How to Use Library**
 
-
-`TwitterConnect` is used to call every Method.
-Currently this library support only following service.
-- Login
-- Logout
-- Profile
-
-----
-`Model` used in above service
-
-
-
-##### Login
-
-  `Result` - TwitterSession
-
-  `Error` - TwitterException
-
-##### Logout
-
-`Result` - N/A
-
-`Error` - N/A
-
-##### Profile
-
-`Result` - User
-
-`Error` - TwitterException
-
-
-----
-
-`Sample` Example
-
-To set `Configuration` regarding Twitter Key , Twitter Secret
+Go to -> [Firebase Console](https://console.firebase.google.com/)
+Enable `Google` from `Authentication` `SignIn` and copy webclientId
 
 ```kotlin
 GoogleConfiguration.clientId(webclientId)
