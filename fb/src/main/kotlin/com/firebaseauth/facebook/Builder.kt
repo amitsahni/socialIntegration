@@ -15,6 +15,6 @@ class Builder {
     }
 
     fun logOut() {
-        FacebookConfiguration.auth.signOut()
+        FacebookConnect.auth.signOut()
     }
 }

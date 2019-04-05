@@ -11,7 +11,7 @@ import com.firebaseauth.facebook.callback.OnCancel
 import com.firebaseauth.facebook.callback.OnError
 import com.firebaseauth.facebook.callback.OnSuccess
 import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserInfo
 
 class RequestBuilder {
 
@@ -76,12 +76,12 @@ class RequestBuilder {
 
 
     class ProfileBuilder(val context: Context) {
-        private var successCallback: OnSuccess<FirebaseUser>? = null
+        private var successCallback: OnSuccess<UserInfo>? = null
         private var errorCallback: OnError<Exception>? = null
 
-        fun success(success: FirebaseUser.() -> Unit): ProfileBuilder {
-            successCallback = object : OnSuccess<FirebaseUser> {
-                override fun onSuccess(result: FirebaseUser) {
+        fun success(success: UserInfo.() -> Unit): ProfileBuilder {
+            successCallback = object : OnSuccess<UserInfo> {
+                override fun onSuccess(result: UserInfo) {
                     success(result)
                 }
             }
@@ -99,12 +99,17 @@ class RequestBuilder {
 
         fun build() {
             val credential = FacebookAuthProvider.getCredential(FacebookConnect.token)
-            FacebookConfiguration.auth.signInWithCredential(credential)
+            FacebookConnect.auth.signInWithCredential(credential)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            FacebookConfiguration.auth.currentUser?.let {
-                                successCallback?.onSuccess(it)
+                            FacebookConnect.auth.currentUser?.let {
+                                it.providerData.forEach { user ->
+                                    if (user.providerId.equals("facebook.com")) {
+                                        successCallback?.onSuccess(user)
+                                    }
+                                }
                             }
+
                         } else {
                             it.exception?.let {
                                 errorCallback?.onError(it)

@@ -40,4 +40,5 @@ dependencies {
     implementation project(':instagram')
     implementation project(':google')
     implementation project(':fb')
+    implementation project(':tw')
 }

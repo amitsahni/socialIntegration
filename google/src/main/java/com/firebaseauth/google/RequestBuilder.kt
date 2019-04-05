@@ -5,19 +5,19 @@ import com.firebaseauth.google.callback.OnCancel
 import com.firebaseauth.google.callback.OnError
 import com.firebaseauth.google.callback.OnSuccess
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserInfo
 
 class RequestBuilder {
 
     class ProfileBuilder {
-        private var successCallback: OnSuccess<FirebaseUser>? = null
+        private var successCallback: OnSuccess<UserInfo>? = null
         private var errorCallback: OnError<Exception>? = null
         private var cancelCallback: OnCancel? = null
 
-        fun success(success: FirebaseUser.() -> Unit): ProfileBuilder {
-            successCallback = object : OnSuccess<FirebaseUser> {
-                override fun onSuccess(result: FirebaseUser) {
+        fun success(success: UserInfo.() -> Unit): ProfileBuilder {
+            successCallback = object : OnSuccess<UserInfo> {
+                override fun onSuccess(result: UserInfo) {
                     success(result)
                 }
             }
@@ -45,11 +45,15 @@ class RequestBuilder {
 
         fun build() {
             val credential = GoogleAuthProvider.getCredential(GoogleConnect.account?.idToken, null)
-            GoogleConfiguration.auth.signInWithCredential(credential)
+            GoogleConnect.auth.signInWithCredential(credential)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            GoogleConfiguration.auth.currentUser?.let {
-                                successCallback?.onSuccess(it)
+                            GoogleConnect.auth.currentUser?.let {
+                                it.providerData.forEach { user ->
+                                    if (user.providerId.equals("google.com")) {
+                                        successCallback?.onSuccess(user)
+                                    }
+                                }
                             }
                         } else {
                             it.exception?.let {

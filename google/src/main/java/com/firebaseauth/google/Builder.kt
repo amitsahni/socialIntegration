@@ -14,6 +14,6 @@ class Builder {
     }
 
     fun logOut() {
-        GoogleConfiguration.auth.signOut()
+        GoogleConnect.auth.signOut()
     }
 }

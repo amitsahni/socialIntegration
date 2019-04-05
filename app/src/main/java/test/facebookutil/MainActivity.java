@@ -13,7 +13,7 @@ import com.facebook.internal.CallbackManagerImpl;
 import com.firebaseauth.facebook.FacebookConnect;
 import com.firebaseauth.google.GoogleConfiguration;
 import com.firebaseauth.google.GoogleConnect;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.instaconnect.InstaConfiguration;
 import com.instaconnect.InstaConnect;
 import com.twitterconnect.TwitterConfiguration;
@@ -118,36 +118,65 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        GoogleConfiguration.INSTANCE.clientId("872446504976-l8pa7tp4nrc0v07tqa68bu7r6pqsvrtp.apps.googleusercontent.com")
+        GoogleConfiguration.clientId("872446504976-l8pa7tp4nrc0v07tqa68bu7r6pqsvrtp.apps.googleusercontent.com")
                 .build();
 
         findViewById(R.id.google).setOnClickListener(view -> {
-            FirebaseUser user = GoogleConfiguration.INSTANCE.getAuth().getCurrentUser();
+            UserInfo user = GoogleConnect.getUser();
             if (user == null) {
-                GoogleConnect.INSTANCE.with()
+                GoogleConnect.with()
                         .login(MainActivity.this, 1000)
                         .build();
             } else {
-                Log.i(getLocalClassName(), user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
+                Log.i(getLocalClassName() + "Google", user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
             }
         });
 
         findViewById(R.id.googleFb).setOnClickListener(view -> {
-            FacebookConnect.with()
-                    .login(this)
-                    .success(model -> {
-                        FacebookConnect.with()
-                                .profile(this)
-                                .success(user -> {
-                                    Log.i(getLocalClassName(), user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
-                                    return Unit.INSTANCE;
-                                }).build();
-                        return Unit.INSTANCE;
-                    })
-                    .error(e -> {
+            UserInfo user = FacebookConnect.getUser();
+            if (user == null) {
+                FacebookConnect.with()
+                        .login(this)
+                        .success(model -> {
+                            FacebookConnect.with()
+                                    .profile(this)
+                                    .success(info -> {
+                                        Log.i(getLocalClassName(), info.getDisplayName() + " " + info.getEmail() + "" + info.getPhoneNumber());
+                                        return Unit.INSTANCE;
+                                    }).build();
+                            return Unit.INSTANCE;
+                        })
+                        .error(e -> {
 
-                        return Unit.INSTANCE;
-                    }).build();
+                            return Unit.INSTANCE;
+                        }).build();
+            } else {
+                Log.i(getLocalClassName() + "Facebook", user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
+            }
+        });
+
+        findViewById(R.id.googleTw).setOnClickListener(view -> {
+            UserInfo user = com.firebaseauth.twitter.TwitterConnect.getUser();
+            if (user == null) {
+                com.firebaseauth.twitter.TwitterConnect.with()
+                        .login(this)
+                        .success(model -> {
+                            com.firebaseauth.twitter.TwitterConnect.with()
+                                    .profile(this)
+                                    .success(info -> {
+                                        Log.i(getLocalClassName(), info.getDisplayName() + " " + info.getEmail() + "" + info.getPhoneNumber());
+                                        return Unit.INSTANCE;
+                                    })
+                                    .build();
+                            return Unit.INSTANCE;
+                        })
+                        .error(e -> {
+
+                            return Unit.INSTANCE;
+                        }).build();
+            } else {
+                Log.i(getLocalClassName() + "Twitter", user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
+            }
         });
 
     }
@@ -195,9 +224,9 @@ public class MainActivity extends AppCompatActivity {
                     FacebookConnect.onActivityResult(requestCode, resultCode, data);
                 }
             } else if (requestCode == 1000) {
-                GoogleConfiguration.INSTANCE.onActivityResult(data, aBoolean -> {
+                GoogleConnect.onActivityResult(data, aBoolean -> {
                     if (aBoolean)
-                        GoogleConnect.INSTANCE.with()
+                        GoogleConnect.with()
                                 .profile()
                                 .build();
                     return Unit.INSTANCE;

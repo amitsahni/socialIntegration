@@ -42,4 +42,10 @@
         android:layout_height="wrap_content"
         android:text="googleFb" />
 
+    <Button
+        android:id="@+id/googleTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="googleTw" />
+
 </LinearLayout>

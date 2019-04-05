@@ -7,6 +7,8 @@ import android.util.Base64
 import android.util.Log
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -14,6 +16,9 @@ import java.security.NoSuchAlgorithmException
 object FacebookConnect {
     @JvmStatic
     val callbackManager = CallbackManager.Factory.create()
+
+    @JvmStatic
+    internal val auth = FirebaseAuth.getInstance()
 
     @JvmStatic
     fun getKeyHash(context: Context) {
@@ -61,5 +66,18 @@ object FacebookConnect {
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)
     }
+
+    @JvmStatic
+    val user: UserInfo?
+        get() {
+            FirebaseAuth.getInstance().currentUser?.let {
+                it.providerData.forEach {
+                    if (it.providerId == "facebook.com") {
+                        return it
+                    }
+                }
+            }
+            return null
+        }
 
 }
