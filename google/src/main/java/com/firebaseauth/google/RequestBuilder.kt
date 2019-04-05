@@ -44,7 +44,7 @@ class RequestBuilder {
 
 
         fun build() {
-            val credential = GoogleAuthProvider.getCredential(GoogleConfiguration.account?.idToken, null)
+            val credential = GoogleAuthProvider.getCredential(GoogleConnect.account?.idToken, null)
             GoogleConfiguration.auth.signInWithCredential(credential)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
