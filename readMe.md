@@ -49,10 +49,6 @@ GoogleConfiguration.clientId(webclientId)
 
 To check for current user
 
-```kotlin
-GoogleConfiguration.getAuth().getCurrentUser();
-```
-
 `Login`
 
 ```kotlin
@@ -86,6 +82,45 @@ GoogleConnect.with()
                 });
             }
         }
+    }
+```
+
+#### Do Google Confirguation in Firebase 
+[Twitter Integration](https://firebase.google.com/docs/auth/android/google-login)
+
+
+`Login`
+
+```kotlin
+ TwitterConnect.with()
+               .login(this)
+               .success(model -> {
+                    return Unit.INSTANCE;
+                  })
+               .error(e -> {
+                    return Unit.INSTANCE;
+                  }).build();
+```
+
+`Profile Sample`
+
+```kotlin
+TwitterConnect.with()
+              .profile(this)
+              .success(info -> {
+                Log.i(getLocalClassName(), info.getDisplayName() + " " + info.getEmail() + "" + info.getPhoneNumber());
+                return Unit.INSTANCE;
+                 })
+              .build();
+```
+
+`OnAcitivyResult`
+
+```kotlin
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        TwitterConnect.onActivityResult(requestCode, resultCode, data);
     }
 ```
 
