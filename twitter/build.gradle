@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'Library'
-    bintrayName = 'tw'
-    libraryName = 'tw'
+    bintrayName = 'twitter'
+    libraryName = 'twitter'
     libraryDescription = 'Twitter Integration'
 
     siteUrl = 'https://github.com/amitsahni/socialIntegration'
@@ -13,8 +13,8 @@ ext {
     issueUrl = 'https://github.com/amitsahni/socialIntegration/issues'
 
     publishedGroupId = 'com.amitsahni'
-    artifact = 'tw'
-    libraryVersion = '0.0.1-alpha03'
+    artifact = 'twitter'
+    libraryVersion = '0.0.1-alpha02'
 
     developerId = 'amitsahni'
     developerName = 'Amit Singh'
