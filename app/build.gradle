@@ -39,4 +39,5 @@ dependencies {
     api project(':twitter')
     implementation project(':instagram')
     implementation project(':google')
+    implementation project(':fb')
 }

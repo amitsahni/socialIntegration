@@ -36,4 +36,10 @@
         android:layout_height="wrap_content"
         android:text="google" />
 
+    <Button
+        android:id="@+id/googleFb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="googleFb" />
+
 </LinearLayout>

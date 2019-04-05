@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.firebaseauth.facebook.FacebookConnect;
 import com.firebaseauth.google.GoogleConfiguration;
 import com.firebaseauth.google.GoogleConnect;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,6 +132,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.googleFb).setOnClickListener(view -> {
+            FacebookConnect.with()
+                    .login(this)
+                    .success(model -> {
+                        FacebookConnect.with()
+                                .profile(this)
+                                .success(user -> {
+                                    Log.i(getLocalClassName(), user.getDisplayName() + " " + user.getEmail() + "" + user.getPhoneNumber());
+                                    return Unit.INSTANCE;
+                                }).build();
+                        return Unit.INSTANCE;
+                    })
+                    .error(e -> {
+
+                        return Unit.INSTANCE;
+                    }).build();
+        });
+
     }
 
     private void profile() {
@@ -173,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
                     //login
                     Log.i(getLocalClassName(), "Login");
-                    FbConnect.onActivityResult(requestCode, resultCode, data);
+                    FacebookConnect.onActivityResult(requestCode, resultCode, data);
                 }
             } else if (requestCode == 1000) {
                 GoogleConfiguration.INSTANCE.onActivityResult(data, aBoolean -> {

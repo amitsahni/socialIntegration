@@ -12,4 +12,8 @@ class Builder {
     fun profile(): RequestBuilder.ProfileBuilder {
         return RequestBuilder.ProfileBuilder()
     }
+
+    fun logOut() {
+        GoogleConfiguration.auth.signOut()
+    }
 }

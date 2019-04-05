@@ -2,19 +2,18 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
-
 ext {
     bintrayRepo = 'Library'
-    bintrayName = 'google'
-    libraryName = 'google'
-    libraryDescription = 'Google Integration'
+    bintrayName = 'facebook'
+    libraryName = 'facebook'
+    libraryDescription = 'Facebook Integration'
 
     siteUrl = 'https://github.com/amitsahni/socialIntegration'
     gitUrl = 'https://github.com/amitsahni/socialIntegration.git'
     issueUrl = 'https://github.com/amitsahni/socialIntegration/issues'
 
     publishedGroupId = 'com.amitsahni'
-    artifact = 'google'
+    artifact = 'facebook'
     libraryVersion = '0.0.1-alpha01'
 
     developerId = 'amitsahni'
@@ -28,7 +27,6 @@ ext {
 
 android {
     compileSdkVersion 28
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
@@ -53,10 +51,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    api 'com.google.firebase:firebase-auth:16.2.0'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
 }
 
 repositories {
@@ -64,6 +61,6 @@ repositories {
     mavenCentral()
 }
 
-if(project.rootProject.file('local.properties').exists()){
+if (project.rootProject.file('local.properties').exists()) {
     apply from: 'https://raw.githubusercontent.com/amitsahni/JCenter/master/deploy.gradle'
 }
