@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -13,17 +12,14 @@ import com.facebook.internal.CallbackManagerImpl;
 import com.firebaseauth.facebook.FacebookConnect;
 import com.firebaseauth.google.GoogleConfiguration;
 import com.firebaseauth.google.GoogleConnect;
+import com.firebaseauth.twitter.TwitterConnect;
 import com.google.firebase.auth.UserInfo;
 import com.instaconnect.InstaConfiguration;
 import com.instaconnect.InstaConnect;
-import com.twitterconnect.TwitterConfiguration;
-import com.twitterconnect.TwitterConnect;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import fbconnect.FacebookConfiguration;
-import fbconnect.FbConnect;
 import kotlin.Unit;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FbConnect.getKeyHash(this);
-        FacebookConfiguration.isDebug(true).config(getApplication());
-        TwitterConfiguration.keys(TWITTER_KEY, TWITTER_SECRET)
-                .isDebug(true)
-                .config(this);
+//        FbConnect.getKeyHash(this);
+//        FacebookConfiguration.isDebug(true).config(getApplication());
+//        TwitterConfiguration.keys(TWITTER_KEY, TWITTER_SECRET)
+//                .isDebug(true)
+//                .config(this);
 
         InstaConfiguration.clientId("2487808efe6d4cd0a3feb16e83fa1d25", "http://www.clickapps.co/")
                 .isDebug(true)
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(android.R.id.text1);
         findViewById(R.id.fb).setOnClickListener(view -> {
-            if (TextUtils.isEmpty(FbConnect.getToken())) {
+            /*if (TextUtils.isEmpty(FbConnect.getToken())) {
                 FbConnect.with()
                         .login(MainActivity.this)
                         .success(loginResult -> {
@@ -61,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 profile();
                 //FbConnect.with(this, Param.FBAction.LOGOUT).build();
-            }
+            }*/
         });
 
         findViewById(R.id.tw).setOnClickListener(view -> {
-            if (TwitterConnect.getSession() == null) {
+            /*if (TwitterConnect.getSession() == null) {
                 TwitterConnect.with()
                         .login(MainActivity.this)
                         .success(model -> {
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         .error(error -> {
                             return Unit.INSTANCE;
                         }).build();
-            }
+            }*/
         });
 
         findViewById(R.id.insta).setOnClickListener(view -> {
@@ -184,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     private void profile() {
         Map<String, String> map = new LinkedHashMap<>();
         // map.put(WebEndPoint.USER_ID_KEY, "1549869761707679");
-        FbConnect.with()
+        /*FbConnect.with()
                 .profile(this)
                 .success(profileResult -> {
                     Log.i(getLocalClassName(), "Email = " + profileResult.getEmail());
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 .error(error -> {
                     return Unit.INSTANCE;
                 })
-                .build();
+                .build();*/
 
 
     }
