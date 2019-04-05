@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
+group='com.amitsahni'
+
+
 ext {
     bintrayRepo = 'Library'
     bintrayName = 'twitter'
